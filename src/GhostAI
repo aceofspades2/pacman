@@ -1,0 +1,80 @@
+Ghost behavior:
+	Common:
+		3 ghosts start in box, 1 ghost starts in maze
+		Nothing can ever re-enter the box
+		When ghosts leave the box/start outside, they start by going left
+		At the start of the level, and when Pacman dies, the ghosts get reset
+		
+		Ghost movement is determined by a target tile that the ghosts choose (doesn't have to be accessible)
+		All ghosts follow the same movement AI to get to the tile, but each ghost chooses tiles differently
+		
+		3 modes of ghost movement:
+			Chase:
+				Pacman's position is used in determining target tile
+				Normal mode
+			Scatter:
+				Ghosts go to predetermined FINAL tiles at each corner of board
+					Pink: Top left
+					Red: top right
+					Yellow: bottom left
+					blue: bottom right
+			Frightened:
+				No target tile, pseudorandom turns at intersections
+				Happens when Pacman eats big dot
+		
+		Modes switch between Chase and Scatter on a fixed time interval
+		timer is reset at beginning of level and when pacman dies
+		timer is paused when in Frightened mode
+		
+		Timer (first level) (in real game, changes with each level, but I might not do that):
+		Scatter (7 sec)
+		Chase (20 sec)
+		Scatter (7)
+		Chase (20)
+		Scatter (5)
+		Chase (20)
+		Scatter (5)
+		Chase (permanent)
+		
+		Ghost movement AI:
+			Each time enters a tile, chooses a target tile, looks at target location and own location 
+				and decides where to go next
+			Ghosts can NEVER reverse direction (180 degree turn), except when switching modes S/C (then its required)
+		
+		Pathing AI:
+			When entering an intersection tile, checks distance of each adjacent tile to target (in straight line)
+			Goes into whichever tile has shortest distance to target
+			If 2 paths are same distance, chooses in priority: up > left > down > right (but it will never go right)
+			At the two intersections directly above the doorframe to box, and the two next directly below them,
+				ghosts will never turn upwards except from mode change direction reversal or in Frightened mode
+		
+		Frightened Mode AI:
+			Ghosts use a pseudo-random number generator (PRNG) to pick a way to turn at each intersection 
+			when frightened. 
+			The PRNG generates an pseudo-random memory address to read the last few bits from. 
+			These bits are translated into the direction a frightened ghost must first try. If a wall blocks 
+			the chosen direction, the ghost then attempts the remaining directions in this order: 
+			up, left, down, and right, until a passable direction is found. The PRNG gets reset with an 
+			identical seed value every new level and every new life, causing predictable results.
+		
+		Ghost specific AI:
+			Blinky (Red): starts outside box
+				Target tile is Pacman's current tile
+				At 2 milestones of dots eaten, speed increases by 5%
+					at 20 dots left
+					at 10 dots left
+			
+			Pinky (Pink): 1st to leave box (immediately)
+				Target tile is 4 tiles in front of Pacman in direction Pacman is going
+			
+			Inky (Teal): 2nd to leave box (after Pinky leaves and 30 dots eaten)
+				Complex target tile calculation using Pacman's direction and Blinky's location
+					Tile X is 2 tiles in front of Pacman in direction of his movement
+					Take vector from Blinky (Red) to Tile X, and double length of vector
+					Inky's target tile is the tile that vector ends on
+			
+			Clyde (Yellow): 3rd/last to leave box (after Inky leaves and 60 more dots eaten)
+				2 modes:
+					When > 8 tiles away from Pacman, uses Blinky (Red) AI
+					When <= 8 tiles away from Pacman, uses Scatter mode AI
+				

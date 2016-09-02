@@ -1,0 +1,127 @@
+Game Mechanics:
+	Board is made of tiles
+	Each dot is at the center of a tile.
+	Pacman and ghosts take up more space than 1 tile, but the tile they are on is considered the one with their center
+		in it
+	If Pacman and a ghost (their centers) occupy the same tile at the same time, Pacman dies
+	
+	When Pacman eats a dot, he stops moving for 1 frame
+	When Pacman eats a big dot, he stops moving for 3 frames
+	
+	Speeds: (first level)
+		Pacman: 
+			Normal: 80% (64 pixels|8 tiles per second)
+			Frightening: 90% (72 pixels|9 tiles per second)
+					100% is 80 pixels|10 tiles per second
+		
+		Ghosts:
+			Normal: 75% (60 pixels|7.5 tiles per second)
+			Frightened: 50% (40 pixels|5 tiles per second)
+			In Side Tunnels: 40% (32 pixels|4 tiles per second)
+	
+	Pacman can start turning corners 4 pixels before or after the centerline. If he does, he goes at 45 degree
+		angle until he reaches the centerline
+	
+	
+	
+	(level 1) map:
+		28 tiles wide
+		31 tiles tall
+		
+		Columns will be represented by A-Z, @, $
+		Rows will be represented by 0-30
+		
+		1st street all the way down: G
+		Middle 2 columns: N, O
+		2nd street all the way down: V
+		
+		vertical wall groupings: A, CDEF, HIJKL, NO, QRSTU, WXYZ, $
+		Horizontal wall groupings: 0, 2.3.4, 6.7, 9.10.11.12.13, 15.16.17.18.19, 21.22, 24.25, 27.28, 30
+		
+		Walls: 	0:A-$
+				1:A, N-O, $
+				2:A, C-F, H-L, N-O, Q-U, W-Z, $
+				3:A, C-F, H-L, N-O, Q-U, W-Z, $
+				4:A, C-F, H-L, N-O, Q-U, W-Z, $
+				5:A, $
+				6:A, C-F, H-I, K-R, T-U, W-Z, $
+				7:A, C-F, H-I, K-R, T-U, W-Z, $
+				8:A, H-I, N-O, T-U, $
+				9:A-F, H-L, N-O, Q-U, W-$
+				10:F, H-L, N-O, Q-U, W
+				11:F, H-I, T-U, W
+				12:F, H-I, K-M, P-R, T-U, W
+				13:A-F, H-I, K, R, T-U, W-$
+				14:K, R
+				15:A-F, H-I, K, R, T-U, W-$
+				16:F, H-I, K-R, T-U, W
+				17:F, H-I, T-U, W
+				18:F, H-I, K-R, T-U, W
+				19:A-F, H-I, K-R, T-U, W-$
+				20:A, N-O, $
+				21:A, C-F, H-L, N-O, Q-U, W-Z, $
+				22:A, C-F, H-L, N-O, Q-U, W-Z, $
+				23:A, E-F, W-X, $
+				24:A-C, E-F, H-I, K-R, T-U, W-X, Z-$
+				25:A-C, E-F, H-I, K-R, T-U, W-X, Z-$
+				26:A, H-I, N-O, T-U, $
+				27:A, C-L, N-O, Q-Z, $
+				28:A, C-L, N-O, Q-Z, $
+				29:A, $
+				30:A-$
+		
+		Dots:	0:
+				1:B-M, P-@
+				2:B, G, M, P, V, @
+				3:B, G, M, P, V, @
+				4:B, G, M, P, V, @
+				5:B-@
+				6:B, G, J, S, V, @
+				7:B, G, J, S, V, @
+				8:B-G, J-M, P-S, V-@
+				9:G, V
+				10:G, V
+				11:G, V
+				12:G, V
+				13:G, V
+				14:G, V
+				15:G, V
+				16:G, V
+				17:G, V
+				18:G, V
+				19:G, V
+				20:B-M, P-@
+				21:B, G, M, P, V, @
+				22:B, G, M, P, V, @
+				23:B-D, G-M, P-V, Y-@
+				24:D, G, J, S, V, Y
+				25:D, G, J, S, V, Y
+				26:B-G, J-M, P-S, V-@
+				27:B, M, P, @
+				28:B, M, P, @
+				29:B-@
+				30:
+		
+		Big Dots:
+				3:B, @
+				22:B, @
+		
+		Door:	12:N-O
+		
+		Nothing:
+				10:A-E, X-$
+				11:A-E, X-$
+				12:A-E, X-$
+				13:L-Q
+				14:L-Q
+				15:L-Q
+				16:A-E, X-$
+				17:A-E, X-$
+				18:A-E, X-$
+		
+		Pacman Spawn:
+				22:between N and O
+				
+				
+		A B C D E F G H I J  K  L  M  N  O  P  Q  R  S  T  U  V  W  X  Y  Z  @  $
+		0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27
